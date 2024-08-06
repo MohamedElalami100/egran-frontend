@@ -1,0 +1,14 @@
+@font-face {
+    font-family: 'Panchang-Bold';
+    src: url('../fonts/Panchang-Bold.woff2') format('woff2'),
+         url('../fonts/Panchang-Bold.woff') format('woff'),
+         url('../fonts/Panchang-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-display: swap;
+    font-style: normal;
+  }
+
+  .fill-gradient {
+     fill: linear-gradient(95deg, #063 9.66%, #95C11F 127.64%);
+   }
+   
