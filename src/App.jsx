@@ -7,12 +7,7 @@ import Reports from "./pages/Reports";
 import Flights from "./pages/Flights";
 import Profile from "./pages/Profile";
 import { useState } from "react";
-import ApiTest from "./api/ApiTest";
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getFlightsByFarmerId } from "./api/FarmerApi";
 import AdminDashboard from "./pages/AdminDashboard";
 

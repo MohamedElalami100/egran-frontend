@@ -55,7 +55,7 @@ const SideMenu = ({ open, setOpen }) => {
         <div className="w-full flex flex-col items-end mt-[41px] gap-[20px]">
           {[
             {
-              to: "/dashboard",
+              to: "/admin/dashboard",
               label: "Dashboard",
               icon1: <DashIcon1 />,
               icon2: <DashIcon2 />,
