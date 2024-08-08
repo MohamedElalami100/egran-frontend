@@ -12,3 +12,14 @@
      fill: linear-gradient(95deg, #063 9.66%, #95C11F 127.64%);
    }
    
+
+   input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
+}

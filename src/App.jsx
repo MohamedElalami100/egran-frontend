@@ -10,6 +10,8 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getFlightsByFarmerId } from "./api/FarmerApi";
 import AdminDashboard from "./pages/AdminDashboard";
+import AdminFlights from "./pages/AdminFlights";
+import NewFlight from "./pages/NewFlight";
 
 const pageVariants = {
   initial: {
@@ -137,6 +139,34 @@ function App() {
                       variants={pageVariants}
                     >
                       <AdminDashboard />
+                    </motion.div>
+                  }
+                />
+                <Route
+                  path="/admin/flights"
+                  element={
+                    <motion.div
+                      key="adminFlights"
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      variants={pageVariants}
+                    >
+                      <AdminFlights />
+                    </motion.div>
+                  }
+                />
+                <Route
+                  path="/admin/flights/new"
+                  element={
+                    <motion.div
+                      key="newFlight"
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      variants={pageVariants}
+                    >
+                      <NewFlight />
                     </motion.div>
                   }
                 />

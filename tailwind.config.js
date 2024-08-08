@@ -75,7 +75,12 @@ module.exports = {
       },
       backgroundImage: {
         'custom-gradient': 'linear-gradient(95deg, #063 -9.66%, #95C11F 127.64%)',
-        'custom-gradient2': 'linear-gradient(247deg, #33DAFF 4.39%, #465B0F 85.65%)'
+        'custom-gradient2': 'linear-gradient(247deg, #33DAFF 4.39%, #465B0F 85.65%)',
+        'custom-gradient3': 'linear-gradient(270deg, rgba(149, 193, 31, 0.10) 0%, rgba(70, 91, 15, 0.01) 100%)',
+        'custom-gradient4': 'linear-gradient(180deg, rgba(149, 193, 31, 0.10) 31.5%, rgba(149, 193, 31, 0.00) 100%)',
+      },
+      borderColor: {
+        'custom-stroke': 'var(--stroke, #E8E3DC)',
       },
     },
   },

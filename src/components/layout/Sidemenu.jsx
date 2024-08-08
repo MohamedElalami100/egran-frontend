@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Button } from "../ui/button";
-import { LayoutDashboard } from "lucide-react";
-import logo from "../../assets/logo.png";
-import logo_mini from "../../assets/logo_mini.png";
 import { Profile } from "@/assets/Profile";
 import Statistic from "@/assets/Statistic";
 import DashIcon1 from "@/assets/DashIcon1";
@@ -55,7 +52,7 @@ const SideMenu = ({ open, setOpen }) => {
         <div className="w-full flex flex-col items-end mt-[41px] gap-[20px]">
           {[
             {
-              to: "/admin/dashboard",
+              to: "/dashboard",
               label: "Dashboard",
               icon1: <DashIcon1 />,
               icon2: <DashIcon2 />,
