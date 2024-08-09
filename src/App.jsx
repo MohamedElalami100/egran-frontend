@@ -12,6 +12,9 @@ import { getFlightsByFarmerId } from "./api/FarmerApi";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminFlights from "./pages/AdminFlights";
 import NewFlight from "./pages/NewFlight";
+import AdminFarmers from "./pages/AdminFarmers";
+import NewFarmer from "./pages/NewFarmer";
+import AdminSideMenu from "./components/layout/AdminSideMenu";
 
 const pageVariants = {
   initial: {
@@ -46,6 +49,7 @@ function App() {
     queryFn: tableQueryFn,
   });
 
+  const isAdmin = true;
   return (
     <Router>
       <div className="flex">
@@ -54,7 +58,11 @@ function App() {
             open ? "w-[262px]" : "w-[65px]"
           }`}
         >
-          <SideMenu open={open} setOpen={setOpen} />
+          {isAdmin ? (
+            <AdminSideMenu open={open} setOpen={setOpen} />
+          ) : (
+            <SideMenu open={open} setOpen={setOpen} />
+          )}
         </div>
         <div className={`duration-300  flex-grow`}>
           <div className="overflow-y-auto h-screen p-4">
@@ -167,6 +175,34 @@ function App() {
                       variants={pageVariants}
                     >
                       <NewFlight />
+                    </motion.div>
+                  }
+                />
+                <Route
+                  path="/admin/farmers"
+                  element={
+                    <motion.div
+                      key="farmers"
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      variants={pageVariants}
+                    >
+                      <AdminFarmers />
+                    </motion.div>
+                  }
+                />
+                <Route
+                  path="/admin/farmers/new"
+                  element={
+                    <motion.div
+                      key="newFarmers"
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      variants={pageVariants}
+                    >
+                      <NewFarmer />
                     </motion.div>
                   }
                 />

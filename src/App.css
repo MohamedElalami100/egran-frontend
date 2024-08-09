@@ -7,6 +7,10 @@
     font-display: swap;
     font-style: normal;
   }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+
+
 
   .fill-gradient {
      fill: linear-gradient(95deg, #063 9.66%, #95C11F 127.64%);
