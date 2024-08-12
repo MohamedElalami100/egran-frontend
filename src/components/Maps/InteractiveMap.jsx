@@ -6,6 +6,32 @@ import "leaflet-draw";
 import "./leafletmap.css";
 import { MaptilerLayer } from "@maptiler/leaflet-maptilersdk";
 import calculateOptimalPath from "@/utils/calculateOptimalPath ";
+import {
+  MapContainer,
+  TileLayer,
+  useMapEvents,
+  Marker,
+  Popup,
+} from "react-leaflet";
+
+const LocationMarker = () => {
+  const [position, setPosition] = useState(null);
+  const map = useMapEvents({
+    click() {
+      map.locate();
+    },
+    locationfound(e) {
+      setPosition(e.latlng);
+      map.flyTo(e.latlng, map.getZoom());
+    },
+  });
+
+  return position === null ? null : (
+    <Marker position={position}>
+      <Popup>You clicked here</Popup>
+    </Marker>
+  );
+};
 
 const InteractiveMap = () => {
   const mapContainer = useRef(null);
@@ -69,6 +95,11 @@ const InteractiveMap = () => {
       // Calculate and draw the optimal path
       const path = calculateOptimalPath(layer.toGeoJSON(), 100); // Example altitude of 100 meters
       drawPath(path);
+
+      // // Event listener for map clicks to "travel" to the clicked position
+      // map.current.on("click", (e) => {
+      //   map.current.panTo(e.latlng); // Pan the map to the clicked position
+      // });
     });
   }, [shapeDrawn]);
 
@@ -107,6 +138,27 @@ const InteractiveMap = () => {
         </pre>
       )}
     </div>
+    // <div>
+    //   <MapContainer
+    //     center={{ lat: 52.507932, lng: 13.338414 }}
+    //     zoom={14}
+    //     scrollWheelZoom={false}
+    //     style={{ height: "100vh", width: "100%" }}
+    //   >
+    //     <TileLayer
+    //       attribution='&copy; <a href="https://www.maptiler.com/">MapTiler</a>'
+    //       url="https://api.maptiler.com/maps/satellite/256/{z}/{x}/{y}.jpg?key=iBsJvpwcweMJ91GDv8rm"
+    //     />
+    //     <LocationMarker />
+    //     {/* Draw control and other map components can be added here */}
+    //   </MapContainer>
+    //   <button onClick={handleSave}>Save Polygon</button>
+    //   {polygonPoints.length > 0 && (
+    //     <pre className="geojson-output">
+    //       {JSON.stringify(polygonPoints, null, 2)}
+    //     </pre>
+    //   )}
+    // </div>
   );
 };
 

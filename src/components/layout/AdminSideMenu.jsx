@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Profile } from "@/assets/Profile";
-import Statistic from "@/assets/Statistic";
 import DashIcon1 from "@/assets/DashIcon1";
 import ProfileIcon2 from "@/assets/ProfileIcon2";
-import Statistic2 from "@/assets/Statistic2";
 import DashIcon2 from "@/assets/DashIcon2";
 import NavDrone1 from "@/assets/NavDrone1";
 import NavDrone2 from "@/assets/NavDrone2";
@@ -14,6 +12,7 @@ import HelpIcon from "@/assets/HelpIcon";
 import LogoFull from "@/assets/LogoFull";
 import LogoMini from "@/assets/LogoMini";
 import LeftShort from "@/assets/LeftShort";
+import FarmersIcon from "@/assets/FarmersIcon";
 
 const AdminSideMenu = ({ open, setOpen }) => {
   return (
@@ -52,7 +51,7 @@ const AdminSideMenu = ({ open, setOpen }) => {
         <div className="w-full flex flex-col items-end mt-[41px] gap-[20px]">
           {[
             {
-              to: "/admin/dashboard",
+              to: "/admin/currentFlight",
               label: "Curren Flight",
               icon1: <DashIcon1 />,
               icon2: <DashIcon2 />,
@@ -66,12 +65,12 @@ const AdminSideMenu = ({ open, setOpen }) => {
             {
               to: "/admin/farmers",
               label: "Farmers",
-              icon1: <Statistic />,
-              icon2: <Statistic2 />,
+              icon1: <FarmersIcon />,
+              icon2: <FarmersIcon />,
             },
             {
-              to: "/profile",
-              label: "Profile",
+              to: "/admin/profile",
+              label: "My Profile",
               icon1: <Profile />,
               icon2: <ProfileIcon2 />,
             },

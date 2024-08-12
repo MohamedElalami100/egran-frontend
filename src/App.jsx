@@ -15,6 +15,8 @@ import NewFlight from "./pages/NewFlight";
 import AdminFarmers from "./pages/AdminFarmers";
 import NewFarmer from "./pages/NewFarmer";
 import AdminSideMenu from "./components/layout/AdminSideMenu";
+import FarmerProfile from "./pages/FarmerProfile";
+import AdminProfile from "./pages/AdminProfile";
 
 const pageVariants = {
   initial: {
@@ -65,7 +67,7 @@ function App() {
           )}
         </div>
         <div className={`duration-300  flex-grow`}>
-          <div className="overflow-y-auto h-screen p-4">
+          <div className="overflow-y-auto h-screen px-4">
             <AnimatePresence mode="wait">
               <Routes location={location} key={location.pathname}>
                 <Route
@@ -137,7 +139,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/admin/dashboard"
+                  path="/admin/currentFlight"
                   element={
                     <motion.div
                       key="adminDashboard"
@@ -165,7 +167,7 @@ function App() {
                   }
                 />
                 <Route
-                  path="/admin/flights/new"
+                  path="/admin/currentFlight/new"
                   element={
                     <motion.div
                       key="newFlight"
@@ -203,6 +205,34 @@ function App() {
                       variants={pageVariants}
                     >
                       <NewFarmer />
+                    </motion.div>
+                  }
+                />
+                <Route
+                  path="/admin/farmers/:farmerId"
+                  element={
+                    <motion.div
+                      key="reports"
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      variants={pageVariants}
+                    >
+                      <FarmerProfile />
+                    </motion.div>
+                  }
+                />
+                <Route
+                  path="/admin/profile"
+                  element={
+                    <motion.div
+                      key="adminProfile"
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      variants={pageVariants}
+                    >
+                      <AdminProfile />
                     </motion.div>
                   }
                 />

@@ -8,15 +8,22 @@ import {
   TableBody,
   TableCell,
 } from "@/components/ui/table";
+import { useNavigate } from "react-router-dom";
 
 function RecentFlightsTable({ data }) {
+  const navigate = useNavigate();
   return (
     <Card className="rounded-[20px] border border-[#0000001A] bg-[#FFF]">
       <CardHeader className="flex flex-row justify-between px-12">
         <CardTitle className="text-[#666] font-manrope text-[16px] font-bold normal-case">
           Recent Flights
         </CardTitle>
-        <div className="text-[#999] font-manrope font-medium leading-normal cursor-pointer">
+        <div
+          onClick={() => {
+            navigate("/flights");
+          }}
+          className="text-[#999] font-manrope font-medium leading-normal cursor-pointer"
+        >
           View all
         </div>
       </CardHeader>

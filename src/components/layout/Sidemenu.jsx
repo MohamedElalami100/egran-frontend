@@ -41,7 +41,7 @@ const SideMenu = ({ open, setOpen }) => {
 
           <div
             className={`cursor-pointer relative -mr-[15px] flex items-center 
-          justify-center w-[30px] h-[30px] bg-[#063] rounded-full
+          justify-center w-[30px] h-[30px] bg-[#063] rounded-full z-50
           ${!open && "rotate-180 "}`}
             onClick={() => setOpen(!open)}
           >

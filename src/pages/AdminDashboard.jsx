@@ -1,9 +1,6 @@
 import React from "react";
 import HeaderSection from "@/components/layout/HeaderSection";
 import StatsCard from "@/components/Dashboard/StatsCard";
-import LineChartSection from "@/components/Dashboard/LineChartSection";
-import PieChartSection from "@/components/Dashboard/PieChartSection";
-import RecentFlightsTable from "@/components/Dashboard/RecentFlightsTable";
 import Clock from "@/assets/Clock";
 import Drone1 from "@/assets/Drone1";
 import Drone2 from "@/assets/Drone2";
@@ -15,9 +12,14 @@ import { IoMdMore } from "react-icons/io";
 import ArtBoard from "../assets/Artboard.png";
 import { Button } from "@/components/ui/button";
 import { FaPlus } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 export function AdminDashboard() {
-  if (true) {
+  const navigate = useNavigate();
+
+  const currentFlightExists = true;
+
+  if (currentFlightExists) {
     return (
       <div className="p-4 lg:pl-[90px] lg:pr-[100px] lg:pt-[54px] flex min-h-screen flex-col bg-background gap-5">
         <HeaderSection headText="Current Flight" />
@@ -27,6 +29,9 @@ export function AdminDashboard() {
             You don’t have any flight yet
           </div>
           <Button
+            onClick={() => {
+              navigate("/admin/currentFlight/new");
+            }}
             className="inline-flex flex-row gap-3 py-2 px-5 justify-center items-center text-white
           font-[Roboto] text-[15px] font-medium leading-[26px] tracking-[0.46px] uppercase
           rounded-[10px] shadow-custom-elevation-2"

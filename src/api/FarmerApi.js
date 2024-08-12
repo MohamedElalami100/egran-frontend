@@ -108,6 +108,16 @@ export const getFlightsByAdminId = async (adminId) => {
   }
 };
 
+export const getdDronesByAdminId = async (adminId) => {
+  try {
+    const response = await api.get(`/api/drones/admin/${adminId}`);
+    return response.data; // Return the response data
+  } catch (error) {
+    console.error(error);
+    throw error; // Rethrow the error to be handled by the caller
+  }
+};
+
 // Get Dashboard Stats
 export const getDashboardStats = async (farmerId) => {
   try {

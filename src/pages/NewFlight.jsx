@@ -8,11 +8,12 @@ import {
 } from "@/components/ui/select";
 import SelectIcon from "@/assets/SelectIcon";
 import InteractiveMap from "@/components/Maps/InteractiveMap";
-import NumberInput from "@/components/ui/NumberInput";
 import { Button } from "@/components/ui/button";
 import HelpTipsIcon from "@/assets/HelpTipsIcon";
 import { MinusIcon } from "lucide-react";
 import { PlusIcon } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { getdDronesByAdminId, getFarmersByAdminId } from "@/api/FarmerApi";
 
 const NewFlight = () => {
   const [altitude, setAltitude] = useState(0);
@@ -34,6 +35,38 @@ const NewFlight = () => {
     setNumImages((prevValue) => (prevValue > 0 ? prevValue - 1 : 0));
   };
 
+  const tableQueryKey = ["adminFarmers", 1];
+  const tableQueryFn = () => getFarmersByAdminId(1);
+
+  const {
+    data: tableData,
+    error: tableError,
+    isLoading: tableLoading,
+  } = useQuery({
+    queryKey: tableQueryKey,
+    queryFn: tableQueryFn,
+  });
+
+  const dronesQueryKey = ["adminDrones", 1];
+  const dronesQueryFn = () => getdDronesByAdminId(1);
+
+  const {
+    data: dronesData,
+    error: dronesError,
+    isLoading: dronesLoading,
+  } = useQuery({
+    queryKey: dronesQueryKey,
+    queryFn: dronesQueryFn,
+  });
+
+  if (tableLoading || dronesLoading) return <div>Loading...</div>;
+  if (tableError || dronesError)
+    return <div>An error occurred: {tableError?.message}</div>;
+
+  const currentTime = new Date();
+
+  const hours = currentTime.getHours();
+  const minutes = currentTime.getMinutes();
   return (
     <div className="p-4 lg:pl-[90px] lg:pr-[100px] lg:pt-[54px] flex min-h-screen flex-col bg-background gap-5">
       <HeaderSection headText="New Flight" />
@@ -57,15 +90,14 @@ const NewFlight = () => {
               </div>
             </SelectTrigger>
             <SelectContent>
-              <SelectItem key="1" value="1">
-                Mohamed Elalami
-              </SelectItem>
-              <SelectItem key="2" value="2">
-                Omar Charf
-              </SelectItem>
-              <SelectItem key="3" value="3">
-                Amine Anlouf
-              </SelectItem>
+              {tableData?.map((row) => (
+                <SelectItem
+                  key={row.id}
+                  value={row.model + "-" + row.serialNumber}
+                >
+                  {row.firstname + " " + row.lastname}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
           <Select>
@@ -87,15 +119,14 @@ const NewFlight = () => {
               </div>
             </SelectTrigger>
             <SelectContent>
-              <SelectItem key="1" value="1">
-                Mohamed Elalami
-              </SelectItem>
-              <SelectItem key="2" value="2">
-                Omar Charf
-              </SelectItem>
-              <SelectItem key="3" value="3">
-                Amine Anlouf
-              </SelectItem>
+              {dronesData?.map((row) => (
+                <SelectItem
+                  key={row.id}
+                  value={row.model + "-" + row.serialNumber}
+                >
+                  {row.model + "-" + row.serialNumber}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
           <div className="w-1/3 flex flex-row items-center justify-center gap-[16px]">
@@ -103,7 +134,7 @@ const NewFlight = () => {
               Agadir, Sous Massa
             </div>
             <div className="text-[#49454F] font-[Manrope] text-[20px] font-bold capitalize">
-              11:20 Am
+              {hours + ":" + minutes} Am
             </div>
           </div>
         </div>
@@ -177,7 +208,10 @@ const NewFlight = () => {
               >
                 Start Flight
               </Button>
-              <Button className="bg-transparent hover:bg-transparent text-[#666] font-manrope text-[13px] font-medium leading-[26px] tracking-[0.46px] lowercase">
+              <Button
+                onClick={() => window.location.reload()}
+                className="bg-transparent hover:bg-transparent text-[#666] font-manrope text-[13px] font-medium leading-[26px] tracking-[0.46px] lowercase"
+              >
                 Cancel
               </Button>
             </div>
