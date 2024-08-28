@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Axios instance
 const api = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: 'http://ec2-35-180-99-211.eu-west-3.compute.amazonaws.com',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -70,7 +70,8 @@ export const createFlight = async (flight) => {
     return response.data; // Return the response data
   } catch (error) {
     console.error(error);
-    throw error; // Rethrow the error to be handled by the caller
+    throw error;
+    // Rethrow the error to be handled by the caller
   }
 };
 
@@ -129,3 +130,24 @@ export const getDashboardStats = async (farmerId) => {
   }
 };
 
+// Function to check drone connection
+export const checkDroneConnection = async (flightId) => {
+  try {
+    const response = await api.get(`/api/flights/checkConnexion/${flightId}`);
+    return response.data; // Assuming the response is a boolean
+  } catch (error) {
+    console.error("Error checking drone connection:", error);
+    throw error; // Rethrow the error to be handled by the caller
+  }
+};
+
+// Function to delete a flight by ID
+export const deleteFlight = async (flightId) => {
+  try {
+    await api.delete(`/api/flights/${flightId}`);
+    console.log(`Flight with ID ${flightId} deleted successfully.`);
+  } catch (error) {
+    console.error(`Failed to delete flight with ID ${flightId}:`, error);
+    throw error;
+  }
+};

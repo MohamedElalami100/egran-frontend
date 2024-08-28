@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import {
   Table,
@@ -9,13 +9,6 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import SearchIcon from "@/assets/SearchIcon";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import TextField from "@mui/material/TextField";
-import IconButton from "@mui/material/IconButton";
-// import FilterListIcon from "@mui/icons-material/FilterList";
 
 const columns = [
   "Flight ID",
@@ -31,10 +24,10 @@ function AllFlightsTable({ tableData, tableError, tableLoading }) {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredData, setFilteredData] = useState(tableData);
+  console.log(tableData);
 
   const handleSearchChange = () => {
     const value = searchTerm.toLowerCase();
-    console.log(value);
     const filtered = tableData.filter((row) => {
       console.log(row.name.toLowerCase());
       return (
@@ -89,7 +82,7 @@ function AllFlightsTable({ tableData, tableError, tableLoading }) {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {filteredData.map((row) => (
+            {filteredData?.map((row) => (
               <TableRow key={row.id}>
                 <TableCell>{row.id}</TableCell>
                 <TableCell>{row.startTime}</TableCell>

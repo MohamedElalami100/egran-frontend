@@ -13,6 +13,7 @@ import {
   Marker,
   Popup,
 } from "react-leaflet";
+import dividePathIntoPoints from "@/utils/dividePathIntoPoints";
 
 const LocationMarker = () => {
   const [position, setPosition] = useState(null);
@@ -33,11 +34,9 @@ const LocationMarker = () => {
   );
 };
 
-const InteractiveMap = () => {
+const InteractiveMap = ({ setPolygon }) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [polygon, setPolygon] = useState(null);
-  const [polygonPoints, setPolygonPoints] = useState([]);
   const [shapeDrawn, setShapeDrawn] = useState(false);
 
   useEffect(() => {
@@ -81,7 +80,6 @@ const InteractiveMap = () => {
     });
 
     map.current.addControl(drawControl);
-
     // Event listener for when a shape is drawn
     map.current.on(L.Draw.Event.CREATED, (event) => {
       const layer = event.layer;
@@ -93,28 +91,10 @@ const InteractiveMap = () => {
       map.current.removeControl(drawControl);
 
       // Calculate and draw the optimal path
-      const path = calculateOptimalPath(layer.toGeoJSON(), 100); // Example altitude of 100 meters
+      const path = calculateOptimalPath(layer.toGeoJSON(), 100);
       drawPath(path);
-
-      // // Event listener for map clicks to "travel" to the clicked position
-      // map.current.on("click", (e) => {
-      //   map.current.panTo(e.latlng); // Pan the map to the clicked position
-      // });
     });
   }, [shapeDrawn]);
-
-  const handleSave = () => {
-    if (polygon) {
-      const points = polygon.geometry.coordinates[0].map((coord) => ({
-        lat: coord[1],
-        lng: coord[0],
-      }));
-      setPolygonPoints(points);
-      alert("Polygon points saved!");
-    } else {
-      alert("No polygon to save!");
-    }
-  };
 
   const drawPath = (path) => {
     const latLngs = path.map(([lat, lng]) => L.latLng(lat, lng));
@@ -131,34 +111,7 @@ const InteractiveMap = () => {
       <div className="map-wrap">
         <div ref={mapContainer} className="map" />
       </div>
-      <button onClick={handleSave}>Save Polygon</button>
-      {polygonPoints.length > 0 && (
-        <pre className="geojson-output">
-          {JSON.stringify(polygonPoints, null, 2)}
-        </pre>
-      )}
     </div>
-    // <div>
-    //   <MapContainer
-    //     center={{ lat: 52.507932, lng: 13.338414 }}
-    //     zoom={14}
-    //     scrollWheelZoom={false}
-    //     style={{ height: "100vh", width: "100%" }}
-    //   >
-    //     <TileLayer
-    //       attribution='&copy; <a href="https://www.maptiler.com/">MapTiler</a>'
-    //       url="https://api.maptiler.com/maps/satellite/256/{z}/{x}/{y}.jpg?key=iBsJvpwcweMJ91GDv8rm"
-    //     />
-    //     <LocationMarker />
-    //     {/* Draw control and other map components can be added here */}
-    //   </MapContainer>
-    //   <button onClick={handleSave}>Save Polygon</button>
-    //   {polygonPoints.length > 0 && (
-    //     <pre className="geojson-output">
-    //       {JSON.stringify(polygonPoints, null, 2)}
-    //     </pre>
-    //   )}
-    // </div>
   );
 };
 
