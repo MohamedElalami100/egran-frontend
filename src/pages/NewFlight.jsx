@@ -32,7 +32,6 @@ const NewFlight = () => {
 
   const [altitude, setAltitude] = useState(2);
   const [numImages, setNumImages] = useState(10);
-  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState(null);
 
   const navigate = useNavigate();
