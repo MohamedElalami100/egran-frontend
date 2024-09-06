@@ -23,6 +23,9 @@ import { createFlight } from "@/api/FarmerApi";
 import dividePathIntoPoints from "@/utils/dividePathIntoPoints";
 import calculateOptimalPath from "@/utils/calculateOptimalPath ";
 import { useNavigate } from "react-router-dom";
+import { Toaster, toast } from "sonner";
+import calculatePolygonArea from "@/utils/calculatePolygonArea";
+import estimateFlightDuration from "@/utils/estimateFlightDuration";
 
 const NewFlight = () => {
   // Initialize the state with an empty map
@@ -60,6 +63,9 @@ const NewFlight = () => {
       const path = calculateOptimalPath(polygon, 100);
       const flightPoints = dividePathIntoPoints(path, numImages);
 
+      const area = calculatePolygonArea(points);
+      const estimatedDuration = Math.round(estimateFlightDuration(area));
+
       const now = new Date();
       const req = {
         droneId: selectedValues?.get("droneId"),
@@ -67,6 +73,8 @@ const NewFlight = () => {
         date: now.toISOString().split("T")[0],
         startTime: now.toTimeString().split(" ")[0],
         altitude: altitude,
+        area: area,
+        predictedDuration: estimatedDuration,
         polygonPointDtoList: points,
         flightPoints: flightPoints,
       };
@@ -89,7 +97,8 @@ const NewFlight = () => {
         const intervalId = setInterval(async () => {
           if (attempts >= maxAttempts) {
             console.log("Max attempts reached. Drone is not connected.");
-            setError("Drone is not connected. Please try again");
+            toast.error("Drone is not connected. Please try again");
+            setError(null);
             setMessage(null);
             clearInterval(intervalId);
             try {
@@ -100,13 +109,15 @@ const NewFlight = () => {
 
           try {
             const isConnected = await checkDroneConnection(flightId);
-
+            //const isConnected = true;
             if (isConnected) {
               console.log("Drone is connected.");
               setMessage("Drone is connected.");
               setError(null);
               clearInterval(intervalId);
-              navigate("/admin/currentFlight");
+              toast.success("Drone is connected Succesfully!");
+
+              navigate("/admin/currentFlight", { state: { showToast: true } });
             } else {
               console.log("Drone is not connected. Checking again...");
               attempts++;
@@ -188,7 +199,7 @@ const NewFlight = () => {
     queryFn: dronesQueryFn,
   });
 
-  if (tableLoading || dronesLoading) return <div>Loading...</div>;
+  if (tableLoading || dronesLoading) return <div></div>;
   if (tableError || dronesError)
     return <div>An error occurred: {tableError?.message}</div>;
 
@@ -213,6 +224,7 @@ const NewFlight = () => {
   const selectedDroneName = !selectedDrone?.model ? null : selectedDrone?.model;
   return (
     <div className="p-4 lg:pl-[90px] lg:pr-[100px] lg:pt-[54px] flex min-h-screen flex-col bg-background gap-5">
+      <Toaster richColors />
       <HeaderSection headText="New Flight" />
       <main className="flex-1">
         <div
@@ -236,9 +248,9 @@ const NewFlight = () => {
                 </div>
               </div>
             </SelectTrigger>
-            <SelectContent className="absolute bottom-full mb-[60px] z-10">
+            <SelectContent className="absolute bottom-full mb-[65px] z-10">
               {tableData?.map((row) => (
-                <SelectItem key={row.id} value={row.id}>
+                <SelectItem className="h-12" key={row.id} value={row.id}>
                   {row.firstname + " " + row.lastname}
                 </SelectItem>
               ))}
@@ -258,9 +270,9 @@ const NewFlight = () => {
                 </div>
               </div>
             </SelectTrigger>
-            <SelectContent className="absolute bottom-full mb-[60px] z-10">
+            <SelectContent className="absolute bottom-full mb-[65px] z-10">
               {dronesData?.map((row) => (
-                <SelectItem key={row.id} value={row.id}>
+                <SelectItem className="h-12" key={row.id} value={row.id}>
                   {row.model + "-" + row.id}
                 </SelectItem>
               ))}

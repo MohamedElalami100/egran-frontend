@@ -20,7 +20,7 @@ const dividePathIntoPoints = (path, numPoints) => {
     const point = along(line, i * spacing, { units: 'kilometers' });
     points.push({
       lat: point.geometry.coordinates[0],
-      lng: point.geometry.coordinates[0]
+      lng: point.geometry.coordinates[1]
     });
   }
 

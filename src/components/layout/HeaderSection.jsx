@@ -16,7 +16,10 @@ function HeaderSection({ headText }) {
   return (
     <header className="flex h-16 items-center justify-between mb-[35px] sm:px-6">
       <div>
-        <div className="text-[#000] font-[Panchang] text-[36px] font-bold capitalize not-italic">
+        {/* <div className="text-[#000] font-[Panchang] text-[36px] font-bold capitalize not-italic">
+          {headText}
+        </div> */}
+        <div className="text-[55px] font-bold leading-normal capitalize font-darker-grotesque text-primary">
           {headText}
         </div>
         <GreenLine />
@@ -37,7 +40,7 @@ function HeaderSection({ headText }) {
                   Mohamed Elalami
                 </div>
                 <div className="text-[#006333] font-manrope text-[12px] font-medium not-italic">
-                  Basic Plan
+                  Flights Admin
                 </div>
               </div>
               <DropdownMenuTrigger asChild>
@@ -51,7 +54,7 @@ function HeaderSection({ headText }) {
                 <div className="flex flex-col">
                   <div className="font-medium">Mohamed Elalami</div>
                   <div className="text-sm text-muted-foreground">
-                    Basic Plan
+                    Flights Admin
                   </div>
                 </div>
               </DropdownMenuLabel>

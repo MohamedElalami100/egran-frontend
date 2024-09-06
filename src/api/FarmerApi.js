@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Axios instance
 const api = axios.create({
-  baseURL: 'http://ec2-35-180-99-211.eu-west-3.compute.amazonaws.com',
+  baseURL: 'http://ec2-35-181-166-82.eu-west-3.compute.amazonaws.com',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -109,6 +109,17 @@ export const getFlightsByAdminId = async (adminId) => {
   }
 };
 
+// Get Flights by Admin ID
+export const getFlightsInProgressByAdminId = async (adminId) => {
+  try {
+    const response = await api.get(`/api/flights/admin/${adminId}/InProgress`);
+    return response.data; // Return the response data
+  } catch (error) {
+    console.error(error);
+    throw error; // Rethrow the error to be handled by the caller
+  }
+};
+
 export const getdDronesByAdminId = async (adminId) => {
   try {
     const response = await api.get(`/api/drones/admin/${adminId}`);
@@ -148,6 +159,17 @@ export const deleteFlight = async (flightId) => {
     console.log(`Flight with ID ${flightId} deleted successfully.`);
   } catch (error) {
     console.error(`Failed to delete flight with ID ${flightId}:`, error);
+    throw error;
+  }
+};
+
+// Function to cancel a flight by ID
+export const cancelFlight = async (flightId) => {
+  try {
+    await api.put(`/api/flights/${flightId}/cancel`);
+    console.log(`Flight with ID ${flightId} canceled successfully.`);
+  } catch (error) {
+    console.error(`Failed to cancel flight with ID ${flightId}:`, error);
     throw error;
   }
 };

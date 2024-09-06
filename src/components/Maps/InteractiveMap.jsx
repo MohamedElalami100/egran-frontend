@@ -15,28 +15,17 @@ import {
 } from "react-leaflet";
 import dividePathIntoPoints from "@/utils/dividePathIntoPoints";
 
-const LocationMarker = () => {
-  const [position, setPosition] = useState(null);
-  const map = useMapEvents({
-    click() {
-      map.locate();
-    },
-    locationfound(e) {
-      setPosition(e.latlng);
-      map.flyTo(e.latlng, map.getZoom());
-    },
-  });
-
-  return position === null ? null : (
-    <Marker position={position}>
-      <Popup>You clicked here</Popup>
-    </Marker>
-  );
-};
-
 const InteractiveMap = ({ setPolygon }) => {
+  // Define the custom camera icon
+  const positionIcon = L.icon({
+    iconUrl: "/src/assets/Position-Marker.png", // Path to camera icon
+    //iconSize: [32, 32], // Size of the icon
+    iconAnchor: [16, 32], // Point of the icon which corresponds to marker's location
+    popupAnchor: [0, -32], // Point from which the popup should open relative to the iconAnchor
+  });
   const mapContainer = useRef(null);
   const map = useRef(null);
+  const [userPosition, setUserPosition] = useState(null);
   const [shapeDrawn, setShapeDrawn] = useState(false);
 
   useEffect(() => {
@@ -59,9 +48,9 @@ const InteractiveMap = ({ setPolygon }) => {
 
     // Define the style options for the drawn polygons
     const polygonStyle = {
-      color: "white",
-      fillColor: "gray",
-      fillOpacity: 0.5,
+      color: "#FFE500",
+      fillColor: "#006633",
+      fillOpacity: 0.4,
     };
 
     // Initialize the draw control and pass it the FeatureGroup of editable layers
@@ -93,6 +82,21 @@ const InteractiveMap = ({ setPolygon }) => {
       // Calculate and draw the optimal path
       const path = calculateOptimalPath(layer.toGeoJSON(), 100);
       drawPath(path);
+    });
+
+    // Request and display user's location
+    map.current.locate({ setView: true, maxZoom: 16 });
+
+    map.current.on("locationfound", (e) => {
+      const { lat, lng } = e.latlng;
+      setUserPosition([lat, lng]); // Set user position state
+      L.marker([lat, lng], {
+        icon: positionIcon,
+      }).addTo(map.current);
+    });
+
+    map.current.on("locationerror", (e) => {
+      console.error("Location access denied.", e.message);
     });
   }, [shapeDrawn]);
 
