@@ -53,7 +53,6 @@ export function AdminDashboard() {
   useEffect(() => {
     console.log(location);
     if (location.state?.showToast) {
-      console.log("haaaaaa");
       toast.success("Drone is connected successfully!");
     }
   }, [location.state]);

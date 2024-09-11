@@ -51,7 +51,7 @@ function App() {
     queryFn: tableQueryFn,
   });
 
-  const isAdmin = true;
+  const isAdmin = false;
   return (
     <Router>
       <div className="flex">
