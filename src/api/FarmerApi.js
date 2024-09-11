@@ -1,11 +1,20 @@
 import axios from 'axios';
+// const https = require('https');
+
+// // Create an HTTPS agent to ignore certificate warnings
+// const agent = new https.Agent({  
+//   rejectUnauthorized: false // Ignore SSL certificate errors
+// });
 
 // Axios instance
 const api = axios.create({
-  baseURL: 'https://ec2-35-181-166-82.eu-west-3.compute.amazonaws.com',
+  baseURL: 'http://ec2-35-181-166-82.eu-west-3.compute.amazonaws.com',
   headers: {
     'Content-Type': 'application/json',
   },
+  // rejectUnauthorized: false,//add when working with https sites
+  // requestCert: false,//add when working with https sites
+  // agent: false,//add when working with https sites
 });
 
 // Create Farmer
