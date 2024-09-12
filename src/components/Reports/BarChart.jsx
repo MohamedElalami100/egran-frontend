@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
 
 const BarChart = ({ values }) => {
+  console.log(values);
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
 
@@ -45,7 +46,7 @@ const BarChart = ({ values }) => {
         chartInstance.current.destroy();
       }
     };
-  }, []);
+  }, [values]);
 
   return (
     <div className="w-full h-full pt-3">

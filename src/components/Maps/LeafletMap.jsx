@@ -10,8 +10,8 @@ import PopupContent from "./PopupContent";
 
 // Define the custom camera icon
 const cameraIcon = L.icon({
-  iconUrl: "/src/assets/camera-icon.png", // Path to camera icon
-  iconSize: [32, 32], // Size of the icon
+  iconUrl: "/src/assets/Spotlight-Marker.png", // Path to camera icon
+  //iconSize: [32, 32], // Size of the icon
   iconAnchor: [16, 32], // Point of the icon which corresponds to marker's location
   popupAnchor: [0, -32], // Point from which the popup should open relative to the iconAnchor
 });
@@ -43,12 +43,16 @@ const LeafletMap = ({ images, polygonPoints, setSelectedImage }) => {
       polygonCoordinates.push([point.lat, point.lng]);
     });
 
+    const polygonStyle = {
+      color: "#FFE500",
+      fillColor: "#006633",
+      fillOpacity: 0.4,
+    };
+
     // Create a polygon and add it to the map
-    const polygon = L.polygon(polygonCoordinates, {
-      color: "White",
-      fillColor: "gray",
-      fillOpacity: 0.5,
-    }).addTo(map.current);
+    const polygon = L.polygon(polygonCoordinates, polygonStyle).addTo(
+      map.current
+    );
 
     // Fit the map view to the bounds of the polygon
     map.current.fitBounds(polygon.getBounds());

@@ -16,6 +16,7 @@ import { getFlightById } from "@/api/FarmerApi";
 import { useNavigate, useParams } from "react-router-dom";
 import PieChartSection from "@/components/Dashboard/PieChartSection";
 import AiTextAnimation from "@/components/Reports/AiTextAnimation";
+import HeatMap from "@/components/Maps/HeatMap";
 
 const Reports = ({ tableData, tableError, tableLoading }) => {
   const { flightId } = useParams();
@@ -37,14 +38,19 @@ const Reports = ({ tableData, tableError, tableLoading }) => {
   const [selectedKey, setSelectedKey] = useState(flightId);
   const [selectedValue, setSelectedValue] = useState("");
 
-  const [selectedImage, setSelectedImage] = useState(flightData?.images[0]);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [mapMode, setMapMode] = useState(0);
 
   useEffect(() => {
     // Find the corresponding value based on the selected key
     const selectedItem = tableData?.find((row) => row.id == selectedKey);
     console.log(selectedItem);
     if (selectedItem) {
-      setSelectedValue(`${selectedItem.startTime}-${selectedItem.endTime}`);
+      setSelectedValue(
+        `${selectedItem.startTime ? selectedItem.startTime : ""}-${
+          selectedItem.endTime ? selectedItem.endTime : ""
+        }`
+      );
     } else {
       setSelectedValue(selectedKey);
     }
@@ -65,24 +71,25 @@ const Reports = ({ tableData, tableError, tableLoading }) => {
         An error occurred: {flightError?.message || tableError?.message}
       </div>
     );
+  if (!selectedImage) {
+    setSelectedImage(flightData?.images[0]);
+  }
 
   const getImageByType = (type) =>
     selectedImage?.filter((image) => image.type == type)?.[0]?.url;
 
-  const aiInsight = selectedImage?.filter(
-    (image) => image.type == "OUTPUT"
-  )?.[0]?.aiInsight
-    ? "Based on recent pest detections in this area, here are the recommended actions to effectively manage the pests and optimize crop health.<br>" +
-      selectedImage?.filter((image) => image.type == "OUTPUT")?.[0]?.aiInsight
+  const output = selectedImage?.filter((image) => image.type == "OUTPUT")?.[0];
+  const aiInsight = output?.aiInsight
+    ? "  Based on recent pest detections in this area, here are the recommended actions to effectively manage the pests and optimize crop health.<br>" +
+      output?.aiInsight
     : "";
 
   console.log(selectedImage);
   const insectsCount = {
-    tuta: selectedImage?.[0]?.tutaCount,
-    oidium: selectedImage?.[0]?.oidium,
+    tuta: output?.tutaCount,
+    oidium: output?.oidiumCount,
   };
 
-  console.log(aiInsight);
   return (
     <div className="p-4 lg:pl-[90px] lg:pr-[100px] lg:pt-[54px] flex min-h-screen flex-col bg-background gap-5">
       <HeaderSection headText="Reports" />
@@ -98,7 +105,7 @@ const Reports = ({ tableData, tableError, tableLoading }) => {
                   <SelectIcon />
                   <div className="flex flex-col items-start">
                     <div className="text-[#22242C] font-manrope text-[18px] font-bold leading-normal capitalize">
-                      Flight Name
+                      Select Flight
                     </div>
                     <div className="text-[#8E8EA1] font-inter text-[14px] font-normal leading-normal">
                       {selectedValue}
@@ -122,7 +129,7 @@ const Reports = ({ tableData, tableError, tableLoading }) => {
               </div>
             </div>
 
-            <CustomButtonGroup />
+            <CustomButtonGroup mapMode={mapMode} setMapMode={setMapMode} />
 
             <div className="mt-[40px] flex flex-row items-center gap-3">
               <RoundedGreen />
@@ -137,12 +144,12 @@ const Reports = ({ tableData, tableError, tableLoading }) => {
 
             <div className="mt-[31px] h-[147px] w-full flex md:justify-between gap-[17px]">
               <img
-                src={getImageByType("RGB")}
+                src={getImageByType("RGB_630")}
                 alt="rgb"
                 className="w-1/2 rounded-[14px]"
               />
               <img
-                src={getImageByType("NIR")}
+                src={getImageByType("NIR_980")}
                 alt="nir"
                 className="w-1/2 rounded-[14px]"
               />
@@ -211,11 +218,23 @@ const Reports = ({ tableData, tableError, tableLoading }) => {
           </div>
 
           <div className="h-[750px] rounded-[20px] border-[5px] border-[rgba(0,0,0,0.20)]">
-            <LeafletMap
-              images={flightData.images}
-              polygonPoints={flightData.polygonPoints}
-              setSelectedImage={setSelectedImage}
-            />
+            {mapMode == 0 ? (
+              <LeafletMap
+                images={flightData.images}
+                polygonPoints={flightData.polygonPoints}
+                setSelectedImage={setSelectedImage}
+              />
+            ) : mapMode == 1 ? (
+              <HeatMap
+                images={flightData.images}
+                polygonPoints={flightData.polygonPoints}
+              />
+            ) : (
+              <HeatMap
+                images={flightData.images}
+                polygonPoints={flightData.polygonPoints}
+              />
+            )}
 
             <div className="mt-[40px] flex flex-row items-center gap-3">
               <RoundedGreen />

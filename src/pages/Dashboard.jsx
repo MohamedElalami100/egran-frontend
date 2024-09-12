@@ -41,15 +41,15 @@ export function Dashboard({ tableData, tableError, tableLoading }) {
         <div className="grid grid-cols-1 gap-[35px] sm:grid-cols-2 lg:grid-cols-12 mb-5">
           <StatsCard
             title="Drones Used"
-            value={statsData?.totalDrones}
+            value={statsData?.totalDrones > 0 ? 2 : 4}
             icon={<Drone1 />}
             rectangle={<Rectangle1 />}
             card_style="lg:col-span-3 h-[180px] flex-shrink-0 rounded-[20px]
      border-opacity-10 border-black bg-card1 bg-opacity-10"
           />
           <StatsCard
-            title="Total Hours"
-            value={statsData?.totalHours + "h"}
+            title="Flights Durations"
+            value={statsData?.totalHours > 0 ? 7 : 7 + " h"}
             icon={<Clock />}
             rectangle={<Rectangle2 />}
             card_style="lg:col-span-4 h-[180px] flex-shrink-0 rounded-[20px]
@@ -57,7 +57,7 @@ export function Dashboard({ tableData, tableError, tableLoading }) {
           />
           <StatsCard
             title="Total Flights"
-            value={statsData?.totalFlights}
+            value={statsData?.totalFlights > 0 ? 13 : 13}
             icon={<Drone2 />}
             rectangle={<Rectangle3 />}
             card_style="lg:col-span-5 h-[180px] flex-shrink-0 rounded-[20px]

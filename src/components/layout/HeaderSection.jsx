@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import GreenLine from "@/assets/GreenLine";
 import DropDown from "@/assets/DropDown";
 import NotificationIcon from "@/assets/NotificationIcon";
+import ProfileImage from "@/assets/ProfileImage.png";
 
 function HeaderSection({ headText }) {
   return (
@@ -32,7 +33,7 @@ function HeaderSection({ headText }) {
           <DropdownMenu>
             <div className="h-full flex justify-between items-center">
               <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarImage src={ProfileImage} />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
               <div className="flex flex-col">

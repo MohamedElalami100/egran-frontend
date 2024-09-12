@@ -52,7 +52,7 @@ function LineChartSection() {
       <CardHeader className="h-1/4 px-[31px]">
         <div className="flex justify-between">
           <CardTitle className="text-[#666] font-manrope text-[16px] font-semibold not-italic capitalize">
-            Maladie Détecté
+            Insects Detected
           </CardTitle>
           <Select defaultValue="currentYear">
             <SelectTrigger className="w-36 h-[32.66px] flex-shrink-0 rounded-[10px] border border-[#D4D4D4]">

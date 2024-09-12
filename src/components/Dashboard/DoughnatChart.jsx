@@ -16,8 +16,8 @@ const DoughnatChart = () => {
       data: {
         datasets: [
           {
-            data: [100, 300],
-            backgroundColor: ["#FF4A55", "#30D887"],
+            data: [23, 14, 56],
+            backgroundColor: ["#FFA500", "#FF4A55", "#30D887"],
             hoverOffset: 4,
           },
         ],

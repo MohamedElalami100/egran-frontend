@@ -10,7 +10,7 @@ import DoughnatChart from "./DoughnatChart";
 import BarChart from "../Reports/BarChart";
 // import Pie from "@/assets/Pie";
 
-function PieChartSection({ withTitle, values }) {
+function PieChartSection({ values, withTitle }) {
   console.log(values);
   return (
     <Card
@@ -24,7 +24,7 @@ function PieChartSection({ withTitle, values }) {
       {withTitle ? (
         <CardHeader>
           <CardTitle className="text-[#063] font-manrope text-[18px] font-semibold capitalize">
-            Distribution Des Maladie
+            Insects Distribution
           </CardTitle>
         </CardHeader>
       ) : (
@@ -34,22 +34,31 @@ function PieChartSection({ withTitle, values }) {
         <div className="flex flex-row h-full">
           {withTitle ? (
             <div className="w-1/2 h-full flex flex-col justify-end pb-[25px]">
-              <div className="flex items-center mb-[5px]">
-                <div className="w-4 h-4 rounded-full bg-[#FF4A55]" />
-                <span
-                  className="ml-2
-                 text-black font-manrope text-base font-medium leading-normal capitalize"
-                >
-                  Malade
-                </span>
-              </div>
               <div className="flex items-center">
                 <div className="w-4 h-4 rounded-full bg-[#30D887]" />
                 <span
                   className="ml-2
                 text-black font-manrope text-base font-medium leading-normal capitalize"
                 >
-                  Non malade
+                  No Insects
+                </span>
+              </div>
+              <div className="flex items-center">
+                <div className="w-4 h-4 rounded-full bg-[#FFA500]" />
+                <span
+                  className="ml-2
+                text-black font-manrope text-base font-medium leading-normal capitalize"
+                >
+                  Oidium
+                </span>
+              </div>
+              <div className="flex items-center mb-[5px]">
+                <div className="w-4 h-4 rounded-full bg-[#FF4A55]" />
+                <span
+                  className="ml-2
+                 text-black font-manrope text-base font-medium leading-normal capitalize"
+                >
+                  Tuta Absoluta
                 </span>
               </div>
             </div>

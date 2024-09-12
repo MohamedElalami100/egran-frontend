@@ -1,6 +1,6 @@
 import { Button, ButtonGroup } from "@mui/material";
 
-const CustomButtonGroup = () => {
+const CustomButtonGroup = ({ mapMode, setMapMode }) => {
   return (
     <ButtonGroup
       variant="outlined"
@@ -33,24 +33,33 @@ const CustomButtonGroup = () => {
           width: "33%",
           border: "1px solid #D4D4D4",
         }}
+        onClick={() => {
+          setMapMode(0);
+        }}
       >
-        Map Mode 1
+        Interactive Mode
       </Button>
       <Button
         sx={{
           width: "34%",
           border: "1px solid #D4D4D4",
         }}
+        onClick={() => {
+          setMapMode(1);
+        }}
       >
-        Map Mode 2
+        Tuta-Abs. Heatmap
       </Button>
       <Button
         sx={{
           width: "34%",
           border: "1px solid #D4D4D4",
         }}
+        onClick={() => {
+          setMapMode(2);
+        }}
       >
-        Map mode 3
+        Oidium Heatmap
       </Button>
     </ButtonGroup>
   );

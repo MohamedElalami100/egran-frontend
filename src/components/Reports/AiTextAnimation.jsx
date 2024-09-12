@@ -17,7 +17,7 @@ const AiTextAnimation = ({ text }) => {
 
   useEffect(() => {
     setDisplayText("");
-    let currentIndex = -1;
+    let currentIndex = 0;
     const intervalId = setInterval(() => {
       if (currentIndex < formattedText.length - 1) {
         setDisplayText((prev) => prev + formattedText[currentIndex]);
