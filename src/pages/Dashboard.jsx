@@ -69,7 +69,7 @@ export function Dashboard({ tableData, tableError, tableLoading }) {
             <LineChartSection className="w-full h-full" />
           </div>
           <div className="md:col-span-4 h-[307px] shrink-0">
-            <PieChartSection className="w-full h-full" />
+            <PieChartSection withTitle={true} className="w-full h-full" />
           </div>
         </div>
 

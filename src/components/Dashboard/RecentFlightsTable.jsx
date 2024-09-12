@@ -35,6 +35,8 @@ function RecentFlightsTable({ data }) {
               <TableHead className="h-[40px]">Departure Time</TableHead>
               <TableHead className="h-[40px]">Arrival Time</TableHead>
               <TableHead className="h-[40px]">Duration</TableHead>
+              <TableHead className="h-[40px]">Area</TableHead>
+              <TableHead className="h-[40px]">Altitude</TableHead>
               <TableHead className="h-[40px]">Status</TableHead>
             </TableRow>
           </TableHeader>
@@ -45,12 +47,14 @@ function RecentFlightsTable({ data }) {
                 <TableCell>{row.startTime}</TableCell>
                 <TableCell>{row.endTime}</TableCell>
                 <TableCell>{row.duration}</TableCell>
+                <TableCell>{(row.area / 10000).toFixed(2) + " ha"}</TableCell>
+                <TableCell>{row.altitude + " m"}</TableCell>
                 <TableCell>
                   <div
                     className={`w-[104.828px] h-[22px] shrink-0 rounded-[24px] ${
                       row.status === "COMPLETED"
                         ? "bg-[#E8FFF8] text-[#21BDCA]"
-                        : row.status === "on process"
+                        : row.status === "IN_PROGRESS"
                         ? "bg-[#FEE] text-[#FF9F24]"
                         : "bg-[#FFEBEB] text-[#FF6243]"
                     } font-open-sans text-[10px] font-semibold flex justify-center items-center`}

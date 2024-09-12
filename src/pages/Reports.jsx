@@ -14,6 +14,8 @@ import LeafletMap from "@/components/Maps/LeafletMap";
 import { useQuery } from "@tanstack/react-query";
 import { getFlightById } from "@/api/FarmerApi";
 import { useNavigate, useParams } from "react-router-dom";
+import PieChartSection from "@/components/Dashboard/PieChartSection";
+import AiTextAnimation from "@/components/Reports/AiTextAnimation";
 
 const Reports = ({ tableData, tableError, tableLoading }) => {
   const { flightId } = useParams();
@@ -64,6 +66,23 @@ const Reports = ({ tableData, tableError, tableLoading }) => {
       </div>
     );
 
+  const getImageByType = (type) =>
+    selectedImage?.filter((image) => image.type == type)?.[0]?.url;
+
+  const aiInsight = selectedImage?.filter(
+    (image) => image.type == "OUTPUT"
+  )?.[0]?.aiInsight
+    ? "Based on recent pest detections in this area, here are the recommended actions to effectively manage the pests and optimize crop health.<br>" +
+      selectedImage?.filter((image) => image.type == "OUTPUT")?.[0]?.aiInsight
+    : "";
+
+  console.log(selectedImage);
+  const insectsCount = {
+    tuta: selectedImage?.[0]?.tutaCount,
+    oidium: selectedImage?.[0]?.oidium,
+  };
+
+  console.log(aiInsight);
   return (
     <div className="p-4 lg:pl-[90px] lg:pr-[100px] lg:pt-[54px] flex min-h-screen flex-col bg-background gap-5">
       <HeaderSection headText="Reports" />
@@ -118,14 +137,12 @@ const Reports = ({ tableData, tableError, tableLoading }) => {
 
             <div className="mt-[31px] h-[147px] w-full flex md:justify-between gap-[17px]">
               <img
-                src={reportImg2}
-                //src={selectedImage ? selectedImage[0]?.url: ""}
+                src={getImageByType("RGB")}
                 alt="rgb"
                 className="w-1/2 rounded-[14px]"
               />
               <img
-                src={reportImg2}
-                //src={selectedImage ? selectedImage[1]?.url: ""}
+                src={getImageByType("NIR")}
                 alt="nir"
                 className="w-1/2 rounded-[14px]"
               />
@@ -134,17 +151,80 @@ const Reports = ({ tableData, tableError, tableLoading }) => {
             <div className="mt-[20px] flex flex-row items-center gap-3">
               <RoundedGreen />
               <div className="text-[#000] font-manrope text-[18px] font-semibold leading-normal capitalize">
-                AI insights
+                Insects Detection
               </div>
+            </div>
+
+            <div className="mt-[31px] h-[187px] w-full flex md:justify-center">
+              <img
+                src={getImageByType("OUTPUT")}
+                alt="rgb"
+                className="w-3/4 rounded-[14px]"
+              />
+            </div>
+
+            <div className="mt-[20px] flex flex-row items-center gap-3">
+              <RoundedGreen />
+              <div className="text-[#000] font-manrope text-[18px] font-semibold leading-normal capitalize">
+                Insects Distribution
+              </div>
+            </div>
+
+            <div className="mt-[31px] h-[187px] w-full flex md:justify-center">
+              <div className="w-1/2">
+                <PieChartSection values={insectsCount} withTitle={false} />
+              </div>
+            </div>
+
+            <div className="mt-[20px] flex flex-row items-center gap-3">
+              <RoundedGreen />
+              <div className="text-[#000] font-manrope text-[18px] font-semibold leading-normal capitalize">
+                Images used by the Ai model to detect the insects
+              </div>
+            </div>
+
+            <div className="mt-[31px] h-[147px] w-full flex md:justify-between gap-[17px]">
+              <img
+                src={getImageByType("RGB_630")}
+                alt="rgb"
+                className="w-1/2 rounded-[14px]"
+              />
+              <img
+                src={getImageByType("NIR_980")}
+                alt="nir"
+                className="w-1/2 rounded-[14px]"
+              />
+            </div>
+
+            <div className="mt-[31px] h-[147px] w-full flex md:justify-between gap-[17px]">
+              <img
+                src={getImageByType("RGB_460")}
+                alt="rgb"
+                className="w-1/2 rounded-[14px]"
+              />
+              <img
+                src={getImageByType("RGB_540")}
+                alt="nir"
+                className="w-1/2 rounded-[14px]"
+              />
             </div>
           </div>
 
-          <div className="rounded-[20px] border-[5px] border-[rgba(0,0,0,0.20)]">
+          <div className="h-[750px] rounded-[20px] border-[5px] border-[rgba(0,0,0,0.20)]">
             <LeafletMap
               images={flightData.images}
               polygonPoints={flightData.polygonPoints}
               setSelectedImage={setSelectedImage}
             />
+
+            <div className="mt-[40px] flex flex-row items-center gap-3">
+              <RoundedGreen />
+              <div className="text-[#000] font-manrope text-[18px] font-semibold leading-normal capitalize">
+                Ai Insights In This Area
+              </div>
+            </div>
+
+            <AiTextAnimation text={aiInsight} />
           </div>
         </div>
       </main>

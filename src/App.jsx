@@ -8,7 +8,7 @@ import Flights from "./pages/Flights";
 import Profile from "./pages/Profile";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getFlightsByFarmerId } from "./api/FarmerApi";
+import { getFlightsByAdminId, getFlightsByFarmerId } from "./api/FarmerApi";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminFlights from "./pages/AdminFlights";
 import NewFlight from "./pages/NewFlight";
@@ -38,9 +38,18 @@ const pageVariants = {
 function App() {
   const [open, setOpen] = useState(false);
 
-  // table data
-  const tableQueryKey = ["farmer", 1];
-  const tableQueryFn = () => getFlightsByFarmerId(1);
+  const isAdmin = false;
+
+  let tableQueryKey = undefined;
+  let tableQueryFn = undefined;
+
+  if (isAdmin) {
+    tableQueryKey = ["adminFlights", 1];
+    tableQueryFn = () => getFlightsByAdminId(1);
+  } else {
+    tableQueryKey = ["farmerFlights", 2];
+    tableQueryFn = () => getFlightsByFarmerId(2);
+  }
 
   const {
     data: tableData,
@@ -51,7 +60,9 @@ function App() {
     queryFn: tableQueryFn,
   });
 
-  const isAdmin = false;
+  const completedFlights = tableData?.filter(
+    (flight) => flight.status == "COMPLETED"
+  );
   return (
     <Router>
       <div className="flex">
@@ -63,7 +74,11 @@ function App() {
           {isAdmin ? (
             <AdminSideMenu open={open} setOpen={setOpen} />
           ) : (
-            <SideMenu open={open} setOpen={setOpen} />
+            <SideMenu
+              open={open}
+              setOpen={setOpen}
+              firstFlightId={tableData?.[0]?.id}
+            />
           )}
         </div>
         <div className={`duration-300  flex-grow`}>

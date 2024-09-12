@@ -15,7 +15,7 @@ import LogoFull from "@/assets/LogoFull";
 import LogoMini from "@/assets/LogoMini";
 import LeftShort from "@/assets/LeftShort";
 
-const SideMenu = ({ open, setOpen }) => {
+const SideMenu = ({ open, setOpen, firstFlightId }) => {
   return (
     <div className="flex flex-col h-full justify-between">
       <div>
@@ -58,7 +58,7 @@ const SideMenu = ({ open, setOpen }) => {
               icon2: <DashIcon2 />,
             },
             {
-              to: "/reports/flight/1",
+              to: "/reports/flight/" + firstFlightId,
               label: "Reports",
               icon1: <Statistic />,
               icon2: <Statistic2 />,
