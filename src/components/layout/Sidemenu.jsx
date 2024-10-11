@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Profile } from "@/assets/Profile";
 import Statistic from "@/assets/Statistic";
@@ -14,8 +14,17 @@ import HelpIcon from "@/assets/HelpIcon";
 import LogoFull from "@/assets/LogoFull";
 import LogoMini from "@/assets/LogoMini";
 import LeftShort from "@/assets/LeftShort";
+import useAuth from "@/auth/AuthProvider";
 
 const SideMenu = ({ open, setOpen, firstFlightId }) => {
+  const { authed, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
   return (
     <div className="flex flex-col h-full justify-between">
       <div>

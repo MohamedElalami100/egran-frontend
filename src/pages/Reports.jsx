@@ -16,7 +16,10 @@ import { getFlightById } from "@/api/FarmerApi";
 import { useNavigate, useParams } from "react-router-dom";
 import PieChartSection from "@/components/Dashboard/PieChartSection";
 import AiTextAnimation from "@/components/Reports/AiTextAnimation";
-import HeatMap from "@/components/Maps/HeatMap";
+import HeatMap from "@/components/Maps/TutaHeatMap";
+import map from "@/assets/map.png";
+import TutaHeatMap from "@/components/Maps/TutaHeatMap";
+import OidiumHeatMap from "@/components/Maps/OidiumHeatMap";
 
 const Reports = ({ tableData, tableError, tableLoading }) => {
   const { flightId } = useParams();
@@ -224,13 +227,14 @@ const Reports = ({ tableData, tableError, tableLoading }) => {
                 polygonPoints={flightData.polygonPoints}
                 setSelectedImage={setSelectedImage}
               />
-            ) : mapMode == 1 ? (
-              <HeatMap
+            ) : // <img src={map} className="h-full w-full" />
+            mapMode == 1 ? (
+              <TutaHeatMap
                 images={flightData.images}
                 polygonPoints={flightData.polygonPoints}
               />
             ) : (
-              <HeatMap
+              <OidiumHeatMap
                 images={flightData.images}
                 polygonPoints={flightData.polygonPoints}
               />

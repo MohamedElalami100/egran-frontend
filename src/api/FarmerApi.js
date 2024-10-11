@@ -1,10 +1,5 @@
+import getCookie from '@/utils/getCookie';
 import axios from 'axios';
-// const https = require('https');
-
-// // Create an HTTPS agent to ignore certificate warnings
-// const agent = new https.Agent({  
-//   rejectUnauthorized: false // Ignore SSL certificate errors
-// });
 
 // Axios instance
 const api = axios.create({
@@ -12,10 +7,28 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  // rejectUnauthorized: false,//add when working with https sites
-  // requestCert: false,//add when working with https sites
-  // agent: false,//add when working with https sites
 });
+
+api.interceptors.request.use(config => {
+  const accessToken = getCookie("access_token"); // Implement getCookie function to read cookies
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`;
+  }
+  return config;
+});
+
+export const authenticateUser = async (username, password) => {
+  try {
+    const response = await api.post('/auth/authenticate', {
+      username,
+      password,
+    });
+    return response.data; // Return the response data containing JWT tokens
+  } catch (error) {
+    console.error("Authentication error:", error);
+    throw error; // Rethrow the error to be handled by the caller
+  }
+};
 
 // Create Farmer
 export const createFarmer = async (farmer) => {

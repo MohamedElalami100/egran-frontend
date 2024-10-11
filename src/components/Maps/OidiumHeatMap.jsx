@@ -5,7 +5,7 @@ import "leaflet.heat"; // Import Leaflet Heat plugin
 import "./leafletmap.css";
 import { MaptilerLayer } from "@maptiler/leaflet-maptilersdk";
 
-const HeatMap = ({ images, polygonPoints }) => {
+const OidiumHeatMap = ({ images, polygonPoints }) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const center = { lng: 13.338414, lat: 44.507932 };
@@ -39,8 +39,8 @@ const HeatMap = ({ images, polygonPoints }) => {
 
     const polygonStyle = {
       color: "#FFE500",
-      fillColor: "#006633",
-      fillOpacity: 0.4,
+      fillColor: "green",
+      fillOpacity: 0.2,
     };
 
     // Create a polygon and add it to the map
@@ -53,9 +53,12 @@ const HeatMap = ({ images, polygonPoints }) => {
 
     // Prepare the heatmap data using images and their tutaCount
     const heatmapData = [];
+    console.log(images);
     images.forEach((image) => {
-      const { lat, lng, tutaCount } = image[0]; // Assume images is an array of objects with [lat, lng, tutaCount]
-      heatmapData.push([lat, lng, tutaCount / 10]); // Normalize the intensity by dividing tutaCount
+      const output = image.filter((img) => img.type == "OUTPUT")?.[0];
+
+      const { lat, lng, oidiumCount } = output;
+      heatmapData.push([lat, lng, oidiumCount]); // Normalize the intensity by dividing tutaCount
     });
 
     // Add the heatmap layer to the map
@@ -85,4 +88,4 @@ const HeatMap = ({ images, polygonPoints }) => {
   );
 };
 
-export default HeatMap;
+export default OidiumHeatMap;

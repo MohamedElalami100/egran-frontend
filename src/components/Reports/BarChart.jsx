@@ -19,8 +19,9 @@ const BarChart = ({ values }) => {
         datasets: [
           {
             data: [
-              values?.oidium ? values?.oidium : 0,
-              values?.tuta ? values?.tuta : 0,
+              // values?.oidium ? values?.oidium : 0,
+              // values?.tuta ? values?.tuta : 0,
+              5, 2,
             ],
             backgroundColor: ["#FFA500", "#FF4A55"], // Same colors
             hoverOffset: 4,
