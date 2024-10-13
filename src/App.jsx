@@ -48,7 +48,9 @@ function AppContent() {
   const { role } = useAuth();
   const [open, setOpen] = useState(false);
 
-  const isAdmin = role === "ADMIN";
+  const location = useLocation(); // Now useLocation is called after Router
+
+  const isAdmin = location.pathname.startsWith("/admin");
 
   let tableQueryKey = undefined;
   let tableQueryFn = undefined;
@@ -73,8 +75,6 @@ function AppContent() {
   const completedFlights = tableData?.filter(
     (flight) => flight.status === "COMPLETED"
   );
-
-  const location = useLocation(); // Now useLocation is called after Router
 
   return (
     <div className="flex">

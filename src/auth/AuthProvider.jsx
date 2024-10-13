@@ -10,6 +10,7 @@ export function useAuth() {
   });
 
   const [role, setRole] = React.useState(() => {
+    console.log(localStorage.getItem("role"));
     return localStorage.getItem("role") || null;
   });
 
@@ -20,6 +21,8 @@ export function useAuth() {
   }, [authed, role]);
 
   return {
+    authed,
+    role,
     login(username, password) {
       // Simulate login with hardcoded credentials for testing
       if (username === "admin" && password === "admin123") {
@@ -47,8 +50,6 @@ export function useAuth() {
         res();
       });
     },
-    authed,
-    role,
   };
 }
 

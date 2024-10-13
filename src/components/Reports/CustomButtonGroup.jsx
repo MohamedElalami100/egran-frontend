@@ -1,7 +1,6 @@
 import { Button, ButtonGroup } from "@mui/material";
 
 const CustomButtonGroup = ({ mapMode, setMapMode }) => {
-  console.log(mapMode);
   return (
     <ButtonGroup
       variant="outlined"
@@ -30,33 +29,33 @@ const CustomButtonGroup = ({ mapMode, setMapMode }) => {
       }}
     >
       <Button
-        sx={{
+        style={{
           width: "33%",
           border: "1px solid #D4D4D4",
-          backgroundColor: mapMode === 0 ? "#303f9f" : "transparent", // Selected button background
-          color: mapMode === 0 ? "#fff" : "var(--ods-ref-color-gray-600, #666)", // Selected button color
+          backgroundColor: mapMode === 0 ? "#006633" : "transparent",
+          color: mapMode === 0 ? "#fff" : "var(--ods-ref-color-gray-600, #666)",
         }}
         onClick={() => setMapMode(0)}
       >
         Interactive Mode
       </Button>
       <Button
-        sx={{
+        style={{
           width: "34%",
           border: "1px solid #D4D4D4",
-          backgroundColor: mapMode === 1 ? "#303f9f" : "transparent", // Selected button background
-          color: mapMode === 1 ? "#fff" : "var(--ods-ref-color-gray-600, #666)", // Selected button color
+          backgroundColor: mapMode === 1 ? "#006633" : "transparent",
+          color: mapMode === 1 ? "#fff" : "var(--ods-ref-color-gray-600, #666)",
         }}
         onClick={() => setMapMode(1)}
       >
         Tuta-Abs. Heatmap
       </Button>
       <Button
-        sx={{
+        style={{
           width: "34%",
           border: "1px solid #D4D4D4",
-          backgroundColor: mapMode === 2 ? "#303f9f" : "transparent", // Selected button background
-          color: mapMode === 2 ? "#fff" : "var(--ods-ref-color-gray-600, #666)", // Selected button color
+          backgroundColor: mapMode === 2 ? "#006633" : "transparent",
+          color: mapMode === 2 ? "#fff" : "var(--ods-ref-color-gray-600, #666)",
         }}
         onClick={() => setMapMode(2)}
       >

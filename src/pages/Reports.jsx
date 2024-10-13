@@ -225,6 +225,7 @@ const Reports = ({ tableData, tableError, tableLoading }) => {
               <LeafletMap
                 images={flightData.images}
                 polygonPoints={flightData.polygonPoints}
+                selectedImage={selectedImage}
                 setSelectedImage={setSelectedImage}
               />
             ) : // <img src={map} className="h-full w-full" />

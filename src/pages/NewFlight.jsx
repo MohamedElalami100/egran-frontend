@@ -108,8 +108,8 @@ const NewFlight = () => {
           }
 
           try {
-            //const isConnected = await checkDroneConnection(flightId);
-            const isConnected = true;
+            const isConnected = await checkDroneConnection(flightId);
+            //const isConnected = true;
             if (isConnected) {
               console.log("Drone is connected.");
               setMessage("Drone is connected.");
