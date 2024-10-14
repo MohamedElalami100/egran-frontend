@@ -20,8 +20,13 @@ import HeatMap from "@/components/Maps/TutaHeatMap";
 import map from "@/assets/map.png";
 import TutaHeatMap from "@/components/Maps/TutaHeatMap";
 import OidiumHeatMap from "@/components/Maps/OidiumHeatMap";
+import { convertTo12HourFormat } from "@/utils/formatTime";
+import getRandImageGroup from "@/utils/getRandImageGroup";
+import ImagesGroup from "@/components/Reports/ImagesGroup";
+import SingleImageComponent from "@/components/Reports/SingleImageComponent";
 
 const Reports = ({ tableData, tableError, tableLoading }) => {
+  const [displayMap, setDisplayMap] = useState(true);
   const { flightId } = useParams();
   const navigate = useNavigate();
 
@@ -44,14 +49,24 @@ const Reports = ({ tableData, tableError, tableLoading }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [mapMode, setMapMode] = useState(0);
 
+  const [randImage, setRandImage] = useState(null);
+
   useEffect(() => {
     // Find the corresponding value based on the selected key
     const selectedItem = tableData?.find((row) => row.id == selectedKey);
     console.log(selectedItem);
     if (selectedItem) {
       setSelectedValue(
-        `${selectedItem.startTime ? selectedItem.startTime : ""}-${
-          selectedItem.endTime ? selectedItem.endTime : ""
+        `Flight Number : ${selectedItem.id ? selectedItem.id : ""} |
+         ${selectedItem.date ? selectedItem.date : ""} |
+        ${
+          selectedItem.startTime
+            ? convertTo12HourFormat(selectedItem.startTime)
+            : ""
+        }-${
+          selectedItem.endTime
+            ? convertTo12HourFormat(selectedItem.endTime)
+            : ""
         }`
       );
     } else {
@@ -77,6 +92,9 @@ const Reports = ({ tableData, tableError, tableLoading }) => {
   if (!selectedImage) {
     setSelectedImage(flightData?.images[0]);
   }
+  if (!randImage) {
+    setRandImage(getRandImageGroup(0));
+  }
 
   const getImageByType = (type) =>
     selectedImage?.filter((image) => image.type == type)?.[0]?.url;
@@ -87,7 +105,7 @@ const Reports = ({ tableData, tableError, tableLoading }) => {
       output?.aiInsight
     : "";
 
-  console.log(selectedImage);
+  console.log(getRandImageGroup(4));
   const insectsCount = {
     tuta: output?.tutaCount,
     oidium: output?.oidiumCount,
@@ -119,7 +137,11 @@ const Reports = ({ tableData, tableError, tableLoading }) => {
               <SelectContent>
                 {tableData?.map((row) => (
                   <SelectItem key={row.id} value={row.id}>
-                    {row.startTime + "-" + row.endTime}
+                    {`Flight Number : ${row.id ? row.id : ""} |
+         ${row.date ? row.date : ""} |
+        ${row.startTime ? convertTo12HourFormat(row.startTime) : ""}-${
+                      row.endTime ? convertTo12HourFormat(row.endTime) : ""
+                    }`}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -137,7 +159,7 @@ const Reports = ({ tableData, tableError, tableLoading }) => {
             <div className="mt-[40px] flex flex-row items-center gap-3">
               <RoundedGreen />
               <div className="text-[#000] font-manrope text-[18px] font-semibold leading-normal capitalize">
-                Cité El Massira Agadir 80000
+                RGB & NIR Images Taken at Coordinates:
               </div>
             </div>
             <div className="text-gray-600 ml-5 font-manrope text-[14px] font-semibold leading-normal capitalize">
@@ -145,18 +167,14 @@ const Reports = ({ tableData, tableError, tableLoading }) => {
               {selectedImage ? selectedImage[0]?.lng : ""}
             </div>
 
-            <div className="mt-[31px] h-[147px] w-full flex md:justify-between gap-[17px]">
-              <img
-                src={getImageByType("RGB_630")}
-                alt="rgb"
-                className="w-1/2 rounded-[14px]"
-              />
-              <img
-                src={getImageByType("NIR_980")}
-                alt="nir"
-                className="w-1/2 rounded-[14px]"
-              />
-            </div>
+            <ImagesGroup
+              randImage1={randImage?.channels?.Image_980?.replace(
+                "Image_980",
+                "COLOR_Image"
+              )}
+              randImage2={randImage?.channels?.Image_850}
+              setDisplayMap={setDisplayMap}
+            />
 
             <div className="mt-[20px] flex flex-row items-center gap-3">
               <RoundedGreen />
@@ -165,13 +183,10 @@ const Reports = ({ tableData, tableError, tableLoading }) => {
               </div>
             </div>
 
-            <div className="mt-[31px] h-[187px] w-full flex md:justify-center">
-              <img
-                src={getImageByType("OUTPUT")}
-                alt="rgb"
-                className="w-3/4 rounded-[14px]"
-              />
-            </div>
+            <SingleImageComponent
+              src={randImage?.file_name}
+              setDisplayMap={setDisplayMap}
+            />
 
             <div className="mt-[20px] flex flex-row items-center gap-3">
               <RoundedGreen />
@@ -193,43 +208,32 @@ const Reports = ({ tableData, tableError, tableLoading }) => {
               </div>
             </div>
 
-            <div className="mt-[31px] h-[147px] w-full flex md:justify-between gap-[17px]">
-              <img
-                src={getImageByType("RGB_630")}
-                alt="rgb"
-                className="w-1/2 rounded-[14px]"
-              />
-              <img
-                src={getImageByType("NIR_980")}
-                alt="nir"
-                className="w-1/2 rounded-[14px]"
-              />
-            </div>
+            <ImagesGroup
+              randImage1={randImage?.channels?.Image_630}
+              randImage2={randImage?.channels?.Image_980}
+              setDisplayMap={setDisplayMap}
+            />
 
-            <div className="mt-[31px] h-[147px] w-full flex md:justify-between gap-[17px]">
-              <img
-                src={getImageByType("RGB_460")}
-                alt="rgb"
-                className="w-1/2 rounded-[14px]"
-              />
-              <img
-                src={getImageByType("RGB_540")}
-                alt="nir"
-                className="w-1/2 rounded-[14px]"
-              />
-            </div>
+            <ImagesGroup
+              randImage1={randImage?.channels?.Image_460}
+              randImage2={randImage?.channels?.Image_540}
+              setDisplayMap={setDisplayMap}
+            />
           </div>
 
           <div className="h-[750px] rounded-[20px] border-[5px] border-[rgba(0,0,0,0.20)]">
-            {mapMode == 0 ? (
+            {!displayMap ? (
+              <div className="h-full bg-white"></div>
+            ) : mapMode == 0 ? (
               <LeafletMap
                 images={flightData.images}
                 polygonPoints={flightData.polygonPoints}
                 selectedImage={selectedImage}
                 setSelectedImage={setSelectedImage}
+                randImage={randImage}
+                setRandImage={setRandImage}
               />
-            ) : // <img src={map} className="h-full w-full" />
-            mapMode == 1 ? (
+            ) : mapMode == 1 ? (
               <TutaHeatMap
                 images={flightData.images}
                 polygonPoints={flightData.polygonPoints}

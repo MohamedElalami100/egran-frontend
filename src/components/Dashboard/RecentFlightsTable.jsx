@@ -9,6 +9,8 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { useNavigate } from "react-router-dom";
+import formatDuration from "@/utils/formatDuration";
+import { convertTo12HourFormat } from "@/utils/formatTime";
 
 function RecentFlightsTable({ data }) {
   const navigate = useNavigate();
@@ -32,6 +34,7 @@ function RecentFlightsTable({ data }) {
           <TableHeader className="rounded-[59px] bg-[#FAFAFA]">
             <TableRow className="rounded-[59px]">
               <TableHead className="h-[40px]">Flight ID</TableHead>
+              <TableHead className="h-[40px]">Date</TableHead>
               <TableHead className="h-[40px]">Departure Time</TableHead>
               <TableHead className="h-[40px]">Arrival Time</TableHead>
               <TableHead className="h-[40px]">Duration</TableHead>
@@ -44,9 +47,14 @@ function RecentFlightsTable({ data }) {
             {data.map((row) => (
               <TableRow key={row.id}>
                 <TableCell>{row.id}</TableCell>
-                <TableCell>{row.startTime}</TableCell>
-                <TableCell>{row.endTime}</TableCell>
-                <TableCell>{row.duration}</TableCell>
+                <TableCell>{row.date}</TableCell>
+                <TableCell>{convertTo12HourFormat(row.startTime)}</TableCell>
+                <TableCell>
+                  {row.endTime ? convertTo12HourFormat(row.endTime) : "---"}
+                </TableCell>
+                <TableCell>
+                  {formatDuration(row.startTime, row.endTime)}
+                </TableCell>
                 <TableCell>{(row.area / 10000).toFixed(2) + " ha"}</TableCell>
                 <TableCell>{row.altitude + " m"}</TableCell>
                 <TableCell>

@@ -6,6 +6,7 @@ import { MaptilerLayer } from "@maptiler/leaflet-maptilersdk";
 import ReactDOMServer from "react-dom/server";
 import ReactDOM from "react-dom/client";
 import PopupContent from "./PopupContent";
+import getRandImageGroup from "@/utils/getRandImageGroup";
 
 const cameraIcon = L.icon({
   iconUrl: "/src/assets/Spotlight-Marker.png",
@@ -24,6 +25,8 @@ const LeafletMap = ({
   polygonPoints,
   selectedImage,
   setSelectedImage,
+  randImage,
+  setRandImage,
 }) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
@@ -102,6 +105,7 @@ const LeafletMap = ({
             message={coord.popup}
             onClick={() => {
               setSelectedImage(coord.img);
+              setRandImage(getRandImageGroup(randImage.image_id - 1));
             }}
           />
         );
@@ -110,7 +114,7 @@ const LeafletMap = ({
       // Store marker in the reference array for cleanup later
       markersRef.current.push(marker);
     });
-  }, [images, selectedImage, setSelectedImage]);
+  }, [images, selectedImage, setSelectedImage, randImage, setRandImage]);
 
   return (
     <div className="map-wrap">

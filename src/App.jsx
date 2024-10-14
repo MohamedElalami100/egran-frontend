@@ -45,7 +45,6 @@ const pageVariants = {
 };
 
 function AppContent() {
-  const { role } = useAuth();
   const [open, setOpen] = useState(false);
 
   const location = useLocation(); // Now useLocation is called after Router
@@ -151,7 +150,7 @@ function AppContent() {
                       variants={pageVariants}
                     >
                       <Reports
-                        tableData={tableData}
+                        tableData={completedFlights}
                         tableError={tableError}
                         tableLoading={tableLoading}
                       />
