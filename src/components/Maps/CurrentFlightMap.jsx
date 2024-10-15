@@ -7,10 +7,11 @@ import ReactDOMServer from "react-dom/server";
 import ReactDOM from "react-dom/client";
 
 import PopupContent from "./PopupContent";
+import icon from "/src/assets/Spotlight-Marker.png";
 
 // Define the custom camera icon
 const cameraIcon = L.icon({
-  iconUrl: "/src/assets/Spotlight-Marker.png", // Path to camera icon
+  iconUrl: icon, // Path to camera icon
   //iconSize: [32, 32], // Size of the icon
   iconAnchor: [16, 32], // Point of the icon which corresponds to marker's location
   popupAnchor: [0, -32], // Point from which the popup should open relative to the iconAnchor
